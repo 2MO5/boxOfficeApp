@@ -4,10 +4,10 @@ import { Link } from 'react-router-dom';
 function Home() {
   return (
     <div>
-      At Home
-      <h1>
+      <h1>At Home</h1>
+      <h4>
         <Link to={'/starred'}>Go to Starred</Link>
-      </h1>
+      </h4>
     </div>
   );
 }
