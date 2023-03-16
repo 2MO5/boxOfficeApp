@@ -14,3 +14,4 @@ export const apiGet = async queryString => {
 //    return apiGet(`/search/shows?q=${query}`);
 // };
 export const searchForShows = query => apiGet(`/search/shows?q=${query}`); //<== These are called reusuable functions!
+export const searchForPeople = query => apiGet(`/search/people?q=${query}`);

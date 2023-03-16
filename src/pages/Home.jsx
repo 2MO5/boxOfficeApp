@@ -1,18 +1,28 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { searchForShows } from '../api/tvmaze';
+import { searchForPeople, searchForShows } from '../api/tvmaze';
 
 function Home() {
   const [searchString, setSearchString] = useState('');
   const [apiData, setApiData] = useState([]);
   const [apiDataError, setApiDataError] = useState(null);
+  const [searchOptions, setSearchOptions] = useState('shows');
+
   console.log(searchString);
+  console.log('@23: ', searchOptions);
+
   console.log('error at API: ', apiDataError);
 
   const onSearchInputChange = e => {
     // console.log('event: ', e);
     // console.log('targeted value: ', e.target.value);
     setSearchString(e.target.value); //setting the input value here
+  };
+
+  const onRadioChange = e => {
+    console.log('@21: ', e.target.value);
+    setSearchOptions(e.target.value);
+    // console.log('@23: ', searchOptions);
   };
 
   const formSubmit = async e => {
@@ -33,9 +43,17 @@ function Home() {
 
     try {
       setApiDataError(null);
-      const result = await searchForShows(searchString);
-      setApiData(result);
-      console.log(result);
+
+      if (searchOptions === 'shows') {
+        const result = await searchForShows(searchString);
+        setApiData(result);
+        console.log('result @50: ', result);
+      } else {
+        const result = await searchForPeople(searchString);
+        setApiData(result);
+        console.log('result @50: ', result);
+      }
+
       console.log('api: ', apiData);
     } catch (error) {
       setApiDataError(error);
@@ -47,12 +65,18 @@ function Home() {
     if (apiDataError) {
       return <div>This happened: {apiDataError.message}! </div>;
     }
-
+    if (apiData?.length === 0) {
+      return <div>No results</div>;
+    }
+    //got actors? show the actors! Else throw out the shows
     if (apiData) {
+      // console.log('apiData[0]: ', apiData[0]);
       //returns do two things: cancelling off and giving it out the result
-      return apiData.map(data => (
-        <div key={data.show.id}>{data.show.name} </div>
-      ));
+      return apiData[0].show
+        ? apiData.map(data => <div key={data.show.id}>{data.show.name} </div>)
+        : apiData.map(data => (
+            <div key={data.person.id}>{data.person.name} </div>
+          ));
     }
 
     return null;
@@ -70,7 +94,28 @@ function Home() {
           value={searchString}
           onChange={onSearchInputChange}
         />
-        <button type="submit">Submit</button>
+
+        <label htmlFor="">
+          Shows
+          <input
+            type="radio"
+            name="search-option"
+            checked={searchOptions === 'shows'}
+            value="shows"
+            onChange={onRadioChange}
+          />
+        </label>
+        <label htmlFor="">
+          Actors
+          <input
+            type="radio"
+            name="search-option"
+            checked={searchOptions === 'actors'}
+            value="actors"
+            onChange={onRadioChange}
+          />
+        </label>
+        <button type="submit">Search</button>
       </form>
       <div>{renderApiData()}</div>
     </div>
