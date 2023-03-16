@@ -1,32 +1,16 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { searchForPeople, searchForShows } from '../api/tvmaze';
+import SearchForm from '../components/SearchForm';
 
 function Home() {
-  const [searchString, setSearchString] = useState('');
   const [apiData, setApiData] = useState([]);
   const [apiDataError, setApiDataError] = useState(null);
-  const [searchOptions, setSearchOptions] = useState('shows');
-
-  console.log(searchString);
-  console.log('@23: ', searchOptions);
 
   console.log('error at API: ', apiDataError);
 
-  const onSearchInputChange = e => {
-    // console.log('event: ', e);
-    // console.log('targeted value: ', e.target.value);
-    setSearchString(e.target.value); //setting the input value here
-  };
-
-  const onRadioChange = e => {
-    console.log('@21: ', e.target.value);
-    setSearchOptions(e.target.value);
-    // console.log('@23: ', searchOptions);
-  };
-
-  const formSubmit = async e => {
-    e.preventDefault();
+  //this onSearch function is pased as a prop to the searchForm component
+  const onSearch = async ({ query, searchOptions }) => {
     // console.log(e);
     // fetch('https://api.tvmaze.com/search/shows?q=girls')
     //   .then(response => response.json())
@@ -44,15 +28,15 @@ function Home() {
     try {
       setApiDataError(null);
 
+      let result;
+
       if (searchOptions === 'shows') {
-        const result = await searchForShows(searchString);
-        setApiData(result);
-        console.log('result @50: ', result);
+        result = await searchForShows(query);
       } else {
-        const result = await searchForPeople(searchString);
-        setApiData(result);
-        console.log('result @50: ', result);
+        result = await searchForPeople(query);
       }
+      console.log('result @50: ', result);
+      setApiData(result);
 
       console.log('api: ', apiData);
     } catch (error) {
@@ -84,39 +68,7 @@ function Home() {
 
   return (
     <div>
-      <h1>At Home</h1>
-      <h4>
-        <Link to={'/starred'}>Go to Starred</Link>
-      </h4>
-      <form action="" onSubmit={formSubmit}>
-        <input
-          type="text"
-          value={searchString}
-          onChange={onSearchInputChange}
-        />
-
-        <label htmlFor="">
-          Shows
-          <input
-            type="radio"
-            name="search-option"
-            checked={searchOptions === 'shows'}
-            value="shows"
-            onChange={onRadioChange}
-          />
-        </label>
-        <label htmlFor="">
-          Actors
-          <input
-            type="radio"
-            name="search-option"
-            checked={searchOptions === 'actors'}
-            value="actors"
-            onChange={onRadioChange}
-          />
-        </label>
-        <button type="submit">Search</button>
-      </form>
+      <SearchForm onSearch={onSearch} />
       <div>{renderApiData()}</div>
     </div>
   );
