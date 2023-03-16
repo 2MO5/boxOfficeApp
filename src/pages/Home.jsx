@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { searchForPeople, searchForShows } from '../api/tvmaze';
+import ActorsGrid from '../components/actors/ActorsGrid';
 import SearchForm from '../components/SearchForm';
+import ShowGrid from '../components/shows/ShowGrid';
 
 function Home() {
   const [apiData, setApiData] = useState([]);
@@ -56,11 +58,16 @@ function Home() {
     if (apiData) {
       // console.log('apiData[0]: ', apiData[0]);
       //returns do two things: cancelling off and giving it out the result
-      return apiData[0].show
-        ? apiData.map(data => <div key={data.show.id}>{data.show.name} </div>)
-        : apiData.map(data => (
-            <div key={data.person.id}>{data.person.name} </div>
-          ));
+      return apiData[0].show ? (
+        <ShowGrid shows={apiData} />
+      ) : (
+        <ActorsGrid actors={apiData} />
+      );
+      // return apiData[0].show
+      //   ? apiData.map(data => <div key={data.show.id}>{data.show.name} </div>)
+      //   : apiData.map(data => (
+      //       <div key={data.person.id}>{data.person.name} </div>
+      //     ));
     }
 
     return null;
