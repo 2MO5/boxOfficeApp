@@ -1,5 +1,6 @@
 import { BrowserRouter, Router, Route, Routes } from 'react-router-dom';
 import MainLayout from './components/MainLayout';
+import { Show } from './components/shows/Show';
 import Home from './pages/Home';
 import Starred from './pages/Starred';
 
@@ -12,6 +13,7 @@ function App() {
           <Route path="/starred" element={<Starred />} />
         </Route>
 
+        <Route path="/show/:showId" element={<Show />} />
         <Route path="*" element={<div>Not Found!</div>} />
 
         {/* <Route path="/" element={<App />}>

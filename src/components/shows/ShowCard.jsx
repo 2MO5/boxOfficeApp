@@ -14,7 +14,7 @@ export const ShowCard = ({ name, image, id, summary }) => {
       <h1>{name}</h1>
       <p>{strippedSummary}</p>
       <div>
-        <Link to="/">Read More</Link>
+        <Link to={`/show/${id}`}>Read More</Link>
         <button type="button">Star ME!</button>
       </div>
     </div>
