@@ -1,11 +1,27 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 export default function SearchForm({ onSearch }) {
   const [searchString, setSearchString] = useState('');
   const [searchOptions, setSearchOptions] = useState('shows');
 
   console.log(searchString);
-  console.log('@23: ', searchOptions);
+  // console.log('@23: ', searchOptions);
+  //AS the state change component is rerendered
+  console.log('searchOptions changes!!');
+
+  useEffect(() => {
+    console.log('current effect is running on: ', searchOptions);
+
+    return () => {
+      console.log(
+        'In ',
+        searchOptions,
+        ' right before you went to the next option ',
+
+        ' :)'
+      );
+    };
+  }, [searchOptions]);
 
   const onSearchInputChange = e => {
     // console.log('event: ', e);
