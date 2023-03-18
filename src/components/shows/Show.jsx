@@ -32,7 +32,7 @@ export const Show = () => {
   const { showId } = useParams();
   // const { showData, showError } = useShowById(showId);
   const { data: showData, error: showError } = useQuery({
-    queryKey: ['show', showId], //this like the dependency array
+    queryKey: ['show', showId], //this like the dependency array and it's the key identifier and onto which the useQuery is attached
     queryFn: () => getShowById(showId), //async await function call is this one
   });
 

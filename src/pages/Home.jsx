@@ -1,18 +1,31 @@
+import { useQuery } from '@tanstack/react-query';
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 import { searchForPeople, searchForShows } from '../api/tvmaze';
 import ActorsGrid from '../components/actors/ActorsGrid';
 import SearchForm from '../components/SearchForm';
 import ShowGrid from '../components/shows/ShowGrid';
 
 function Home() {
-  const [apiData, setApiData] = useState([]);
-  const [apiDataError, setApiDataError] = useState(null);
+  // const [apiData, setApiData] = useState([]);
+  // const [apiDataError, setApiDataError] = useState(null);
 
-  console.log('error at API: ', apiDataError);
+  const [filter, setFilter] = useState(null);
+
+  const { data: apiData, error: apiDataError } = useQuery({
+    queryKey: ['search', filter],
+    queryFn: () =>
+      filter.searchOptions === 'shows'
+        ? searchForShows(filter.query)
+        : searchForPeople(filter.query),
+    // ⬇️ disabled as long as the filter is empty
+    enabled: !!filter, //query disabled when filter is false. True? Enable it!
+    refetchOnWindowFocus: false,
+  });
 
   //this onSearch function is pased as a prop to the searchForm component
   const onSearch = async ({ query, searchOptions }) => {
+    //clicked the search ? the filer state ⬇️ is changed
+    setFilter({ query, searchOptions });
     // console.log(e);
     // fetch('https://api.tvmaze.com/search/shows?q=girls')
     //   .then(response => response.json())
@@ -27,24 +40,24 @@ function Home() {
 
     // const body = await apiGet(`/search/shows?q=${searchString}`)
 
-    try {
-      setApiDataError(null);
+    // try {
+    //   setApiDataError(null);
 
-      let result;
+    //   let result;
 
-      if (searchOptions === 'shows') {
-        result = await searchForShows(query);
-      } else {
-        result = await searchForPeople(query);
-      }
-      console.log('result @50: ', result);
-      setApiData(result);
+    //   if (searchOptions === 'shows') {
+    //     result = await searchForShows(query);
+    //   } else {
+    //     result = await searchForPeople(query);
+    //   }
+    //   console.log('result @50: ', result);
+    //   setApiData(result);
 
-      console.log('api: ', apiData);
-    } catch (error) {
-      setApiDataError(error);
-      console.log('error at API: ', apiDataError);
-    }
+    //   console.log('api: ', apiData);
+    // } catch (error) {
+    //   setApiDataError(error);
+    //   console.log('error at API: ', apiDataError);
+    // }
   };
 
   const renderApiData = () => {
