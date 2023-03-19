@@ -5,7 +5,7 @@ import ActorsGrid from '../components/actors/ActorsGrid';
 import SearchForm from '../components/SearchForm';
 import ShowGrid from '../components/shows/ShowGrid';
 
-const reducerFn = (currentCounter, action) => {
+const reducerFunction = (currentCounter, action) => {
   //this reducer function must return a state
   console.log({ currentCounter, action });
   switch (action.type) {
@@ -29,7 +29,7 @@ function Home() {
 
   const [filter, setFilter] = useState(null);
   // const [counter,dispatch] = useReducer(reducerFunction,initialState goes herecounter);
-  const [counter, dispatch] = useReducer(reducerFn, 0);
+  const [counter, dispatch] = useReducer(reducerFunction, 0);
   const { data: apiData, error: apiDataError } = useQuery({
     queryKey: ['search', filter],
     queryFn: () =>
@@ -125,6 +125,7 @@ function Home() {
     <div>
       <SearchForm onSearch={onSearch} />
       <div>Counter: {counter}</div>
+      {/* Awaiting actions are fired from here */}
       <button type="button" onClick={onIncrement}>
         Increment
       </button>
