@@ -14,7 +14,12 @@ export const ShowCard = ({ name, image, id, summary }) => {
       <h1>{name}</h1>
       <p>{strippedSummary}</p>
       <div>
-        <Link to={`/show/${id}`}>Read More</Link>
+        {/* Link is used for client side rendering/routing through react router */}
+        {/* <Link to={`/show/${id}`}>Read More</Link> */}
+        {/* Want to open the page in another tab (not related to client side rendering/routing)? Use the <a href! */}
+        <a href={`/show/${id}`} target="_blank" rel="noreferrer">
+          Read More
+        </a>
         <button type="button">Star ME!</button>
       </div>
     </div>

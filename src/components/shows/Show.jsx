@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import { getShowById } from '../../api/tvmaze';
 import { useQuery } from '@tanstack/react-query';
 import ShowMainData from './ShowMainData';
@@ -41,6 +41,12 @@ export const Show = () => {
     refetchOnWindowFocus: false,
   });
 
+  // const navigateTo = useNavigate();
+
+  // const onGoBack = () => {
+  //   navigateTo('/');
+  // };
+
   if (showError) {
     return <div> We have an error!! {showError.message}</div>;
   }
@@ -48,6 +54,10 @@ export const Show = () => {
     console.log('@46: ', showData);
     return (
       <div>
+        <Link to="/">Go Back</Link>
+        {/* <button type="button" onClick={onGoBack}>
+          Go Back
+        </button> */}
         <ShowMainData
           image={showData.image}
           name={showData.name}
