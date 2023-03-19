@@ -1,16 +1,35 @@
 import { useQuery } from '@tanstack/react-query';
-import React, { useState } from 'react';
+import React, { useReducer, useState } from 'react';
 import { searchForPeople, searchForShows } from '../api/tvmaze';
 import ActorsGrid from '../components/actors/ActorsGrid';
 import SearchForm from '../components/SearchForm';
 import ShowGrid from '../components/shows/ShowGrid';
+
+const reducerFn = (currentCounter, action) => {
+  //this reducer function must return a state
+  console.log({ currentCounter, action });
+  switch (action.type) {
+    case 'INCREMENT':
+      return currentCounter + 1;
+    case 'DECREMENT':
+      return currentCounter - 1;
+    case 'NEW_RESET':
+      return action.newCounter;
+    // case 'NEW_RESET':
+    //   return (currentCounter = 600);
+    case 'RESET':
+      return 0;
+  }
+  return 0;
+};
 
 function Home() {
   // const [apiData, setApiData] = useState([]);
   // const [apiDataError, setApiDataError] = useState(null);
 
   const [filter, setFilter] = useState(null);
-
+  // const [counter,dispatch] = useReducer(reducerFunction,initialState goes herecounter);
+  const [counter, dispatch] = useReducer(reducerFn, 0);
   const { data: apiData, error: apiDataError } = useQuery({
     queryKey: ['search', filter],
     queryFn: () =>
@@ -22,6 +41,22 @@ function Home() {
     refetchOnWindowFocus: false,
   });
 
+  //Here are the sharp actions dispatched vegem
+  const onIncrement = () => {
+    //setCounter(counter + 1)
+    dispatch({ type: 'INCREMENT' });
+  };
+  const onDecrement = () => {
+    dispatch({ type: 'DECREMENT' });
+    // setCounter(counter - 1)
+  };
+  const onReset = () => {
+    dispatch({ type: 'RESET' });
+    // setCounter(0)
+  };
+  const onNewReset = () => {
+    dispatch({ type: 'NEW_RESET', newCounter: 500 });
+  };
   //this onSearch function is pased as a prop to the searchForm component
   const onSearch = async ({ query, searchOptions }) => {
     //clicked the search ? the filer state ⬇️ is changed
@@ -89,6 +124,19 @@ function Home() {
   return (
     <div>
       <SearchForm onSearch={onSearch} />
+      <div>Counter: {counter}</div>
+      <button type="button" onClick={onIncrement}>
+        Increment
+      </button>
+      <button type="button" onClick={onDecrement}>
+        Decrement
+      </button>
+      <button type="button" onClick={onReset}>
+        Reset
+      </button>
+      <button type="button" onClick={onNewReset}>
+        New Reset
+      </button>
       <div>{renderApiData()}</div>
     </div>
   );
