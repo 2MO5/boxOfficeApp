@@ -1,6 +1,13 @@
 import React from 'react';
 
-export const ShowCard = ({ name, image, id, summary, onStarMeClick }) => {
+export const ShowCard = ({
+  name,
+  image,
+  id,
+  summary,
+  onStarMeClick,
+  isStarred,
+}) => {
   const strippedSummary = summary
     ? summary.split('').slice(0, 20).join('').replace(/<.+?>/g, '')
     : 'No description';
@@ -20,7 +27,7 @@ export const ShowCard = ({ name, image, id, summary, onStarMeClick }) => {
           Read More
         </a>
         <button type="button" onClick={() => onStarMeClick(id)}>
-          Star ME!
+          {isStarred ? 'UnStar ME!' : 'Star ME!'}
         </button>
       </div>
     </div>

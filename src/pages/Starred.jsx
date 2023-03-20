@@ -1,14 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useStarredShows } from '../lib/useStarredShows';
 
 function Starred() {
+  const [starredShows] = useStarredShows(); //only need the data here. No action
+
   return (
     <div>
-      {' '}
-      At Home
-      <h1>
-        <Link to={'/'}>Go to Home</Link>
-      </h1>
+      <h1>starred page</h1>
+      You have starred {starredShows.length} movies!
     </div>
   );
 }
