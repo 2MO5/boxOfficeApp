@@ -1,7 +1,10 @@
 import React from 'react';
 
 export const AppTitle = props => {
-  const { title = 'default', subTitle = 'Hey! I am the sub!' } = props;
+  const {
+    title = 'Box Office',
+    subTitle = 'In search for a movie or an actor?',
+  } = props;
 
   return (
     <div>

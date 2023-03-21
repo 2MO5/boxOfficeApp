@@ -6,10 +6,9 @@ import Navs from './Navs';
 const MainLayout = () => {
   return (
     <div>
+      <AppTitle />
       <Navs />
-      <AppTitle title="I am the title!" />
-      A Shared Mark up
-      <Outlet />
+      <Outlet /> {/*Here the outlet is the main layout*/}
     </div>
   );
 };

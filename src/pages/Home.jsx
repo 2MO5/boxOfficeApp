@@ -42,21 +42,21 @@ function Home() {
   });
 
   //Here are the sharp actions dispatched vegem
-  const onIncrement = () => {
-    //setCounter(counter + 1)
-    dispatch({ type: 'INCREMENT' });
-  };
-  const onDecrement = () => {
-    dispatch({ type: 'DECREMENT' });
-    // setCounter(counter - 1)
-  };
-  const onReset = () => {
-    dispatch({ type: 'RESET' });
-    // setCounter(0)
-  };
-  const onNewReset = () => {
-    dispatch({ type: 'NEW_RESET', newCounter: 500 });
-  };
+  // const onIncrement = () => {
+  //   //setCounter(counter + 1)
+  //   dispatch({ type: 'INCREMENT' });
+  // };
+  // const onDecrement = () => {
+  //   dispatch({ type: 'DECREMENT' });
+  //   // setCounter(counter - 1)
+  // };
+  // const onReset = () => {
+  //   dispatch({ type: 'RESET' });
+  //   // setCounter(0)
+  // };
+  // const onNewReset = () => {
+  //   dispatch({ type: 'NEW_RESET', newCounter: 500 });
+  // };
   //this onSearch function is pased as a prop to the searchForm component
   const onSearch = async ({ query, searchOptions }) => {
     //clicked the search ? the filer state ⬇️ is changed
@@ -124,9 +124,9 @@ function Home() {
   return (
     <div>
       <SearchForm onSearch={onSearch} />
-      <div>Counter: {counter}</div>
+      {/* <div>Counter: {counter}</div> */}
       {/* Awaiting actions are fired from here */}
-      <button type="button" onClick={onIncrement}>
+      {/* <button type="button" onClick={onIncrement}>
         Increment
       </button>
       <button type="button" onClick={onDecrement}>
@@ -137,7 +137,7 @@ function Home() {
       </button>
       <button type="button" onClick={onNewReset}>
         New Reset
-      </button>
+      </button> */}
       <div>{renderApiData()}</div>
     </div>
   );
