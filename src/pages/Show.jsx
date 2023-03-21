@@ -1,11 +1,12 @@
-import { useEffect, useState } from 'react';
-import { useParams, useNavigate, Link } from 'react-router-dom';
-import { getShowById } from '../../api/tvmaze';
+import { Link, useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-import ShowMainData from './ShowMainData';
-import Details from './Details';
-import Seasons from './Seasons';
-import Casts from './Casts';
+import styled from 'styled-components';
+import { getShowById } from '../api/tvmaze';
+import ShowMainData from '../components/shows/ShowMainData';
+import Details from '../components/shows/Details';
+import Seasons from '../components/shows/Seasons';
+import Casts from '../components/shows/Casts';
+import { TextCenter } from '../components/common/TextCenter';
 // const useShowById = showId => {
 //   const [showData, setShowData] = useState(null);
 //   const [showError, setShowError] = useState(null);
@@ -53,8 +54,10 @@ export const Show = () => {
   if (showData) {
     console.log('@46: ', showData);
     return (
-      <div>
-        <Link to="/">Go Back</Link>
+      <ShowPageWrapper>
+        <BackHomeWrapper>
+          <Link to="/">Go Back</Link>
+        </BackHomeWrapper>
         {/* <button type="button" onClick={onGoBack}>
           Go Back
         </button> */}
@@ -77,9 +80,41 @@ export const Show = () => {
 
         <h2>Casts</h2>
         <Casts cast={showData._embedded.cast} />
-      </div>
+      </ShowPageWrapper>
     );
   }
 
-  return <div>data is loading for show {showId}</div>;
+  return <TextCenter>data is loading for show {showId}</TextCenter>;
 };
+
+const BackHomeWrapper = styled.div`
+  margin-bottom: 30px;
+  text-align: left;
+  a {
+    padding: 10px;
+    color: ${({ theme }) => theme.mainColors.dark};
+    text-decoration: none;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+`;
+
+const ShowPageWrapper = styled.div`
+  margin: auto;
+  @media only screen and (min-width: 768px) {
+    max-width: 700px;
+  }
+  @media only screen and (min-width: 992px) {
+    max-width: 900px;
+  }
+`;
+
+const InfoBlock = styled.div`
+  margin-bottom: 40px;
+  h2 {
+    margin: 0;
+    margin-bottom: 30px;
+    font-size: 22px;
+  }
+`;

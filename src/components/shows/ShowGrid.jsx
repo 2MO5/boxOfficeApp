@@ -1,5 +1,6 @@
 import React, { useEffect, useReducer } from 'react';
 import { useStarredShows } from '../../lib/useStarredShows';
+import { FlexGrid } from '../common/FlexGrid';
 import { ShowCard } from './ShowCard';
 
 const ShowGrid = ({ shows }) => {
@@ -22,7 +23,7 @@ const ShowGrid = ({ shows }) => {
 
   console.log(shows);
   return (
-    <div>
+    <FlexGrid>
       {shows.map(data => {
         return (
           <>
@@ -43,7 +44,7 @@ const ShowGrid = ({ shows }) => {
           </>
         );
       })}
-    </div>
+    </FlexGrid>
   );
 };
 

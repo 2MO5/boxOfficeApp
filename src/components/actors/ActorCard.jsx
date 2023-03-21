@@ -1,4 +1,5 @@
 import React from 'react';
+import { SearchCard, SearchImgWrapper } from '../common/SearchCard';
 
 export const ActorCard = ({
   name,
@@ -9,10 +10,10 @@ export const ActorCard = ({
   deathday,
 }) => {
   return (
-    <div>
-      <div>
+    <SearchCard>
+      <SearchImgWrapper>
         <img src={image} alt={name} />
-      </div>
+      </SearchImgWrapper>
       {/* Need to make sure it's boolean */}
       <h1>
         {name} {!!geneder && `(${geneder})`}
@@ -21,6 +22,6 @@ export const ActorCard = ({
       {!!birthday && <p>Born on {birthday}</p>}
 
       <p>{deathday ? `Died ${deathday}` : 'Alive!'}</p>
-    </div>
+    </SearchCard>
   );
 };
